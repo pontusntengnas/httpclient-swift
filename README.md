@@ -1,5 +1,5 @@
 # httpclient-swift
-<p>Provides a convinient way of making HTTP requests and parsing a JSON result to a data model.</p>
+<p>Provides a convenient way of making HTTP requests and parsing a JSON result to a data model.</p>
 
 ## Usage
 
