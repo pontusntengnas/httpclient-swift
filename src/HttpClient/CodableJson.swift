@@ -9,8 +9,7 @@
 import Foundation
 
 public protocol CodableJson: Decodable {
-    static var jsonDecoder: JSONDecoder { get }
-    init?(json:Data)
+    init?(json: Data)
 }
 
 public extension CodableJson {
@@ -20,7 +19,7 @@ public extension CodableJson {
         }
     }
     
-    init?(json:Data) {
+    init?(json: Data) {
         do {
             self = try Self.self.jsonDecoder.decode(Self.self, from: json)
         } catch {
