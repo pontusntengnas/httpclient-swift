@@ -16,6 +16,8 @@ public struct HttpClient {
                             httpMethod: HCHttpMethod,
                             headers: [String: String]? = nil,
                             body: Data? = nil,
+                            cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+                            timeout: Int = 30,
                             completionHandler: @escaping (_ result: HCClientResponse?) -> ()) {
         
         if url.isEmpty {
@@ -28,7 +30,7 @@ public struct HttpClient {
             return
         }
         
-        var request = URLRequest(url: urlObject, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 60)
+        var request = URLRequest(url: urlObject, cachePolicy: cachePolicy, timeoutInterval: TimeInterval(timeout))
         request.httpMethod = httpMethod.rawValue
         
         if let headers = headers {
