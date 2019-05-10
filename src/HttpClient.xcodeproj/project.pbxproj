@@ -15,7 +15,6 @@
 		CD5F45152279CCE800507162 /* HCClientResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5F45142279CCE800507162 /* HCClientResponse.swift */; };
 		CD5F45172279CD2600507162 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5F45162279CD2600507162 /* HttpClient.swift */; };
 		CD5F451A2279CE7D00507162 /* HCConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5F45192279CE7D00507162 /* HCConstants.swift */; };
-		CD5F451D2279CF0E00507162 /* CodableJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5F451C2279CF0E00507162 /* CodableJson.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +39,6 @@
 		CD5F45142279CCE800507162 /* HCClientResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCClientResponse.swift; sourceTree = "<group>"; };
 		CD5F45162279CD2600507162 /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		CD5F45192279CE7D00507162 /* HCConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCConstants.swift; sourceTree = "<group>"; };
-		CD5F451C2279CF0E00507162 /* CodableJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableJson.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +81,6 @@
 		CD5F44F62279CA4E00507162 /* HttpClient */ = {
 			isa = PBXGroup;
 			children = (
-				CD5F451B2279CEF600507162 /* JSON */,
 				CD5F45182279CE5E00507162 /* Constants */,
 				CD5F45112279CC0D00507162 /* Client */,
 				CD5F450E2279CB7C00507162 /* Extensions */,
@@ -126,14 +123,6 @@
 				CD5F45192279CE7D00507162 /* HCConstants.swift */,
 			);
 			name = Constants;
-			sourceTree = "<group>";
-		};
-		CD5F451B2279CEF600507162 /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				CD5F451C2279CF0E00507162 /* CodableJson.swift */,
-			);
-			name = JSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,7 +238,6 @@
 				CD5F45152279CCE800507162 /* HCClientResponse.swift in Sources */,
 				CD5F451A2279CE7D00507162 /* HCConstants.swift in Sources */,
 				CD5F45172279CD2600507162 /* HttpClient.swift in Sources */,
-				CD5F451D2279CF0E00507162 /* CodableJson.swift in Sources */,
 				CD5F45102279CBAC00507162 /* URLRequest+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

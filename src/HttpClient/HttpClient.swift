@@ -10,15 +10,32 @@ import Foundation
 
 public struct HttpClient {
     
-    public init() { }
+    private let jsonDecoder: JSONDecoder
     
-    public func httpRequest(url: String,
+    public init() {
+        jsonDecoder = JSONDecoder()
+    }
+    
+    /// Performs an Http request to param `url`.
+    /// Decodes JSON response to an instance of parameter `outType`
+    ///
+    /// - Parameters:
+    ///     - url: The url to where the request is made
+    ///     - httpMethod: Http method to use for the request
+    ///     - outType: The type of the class/struct that should be returned if the request succeeds
+    ///     - headers: Dictionary for Http request headers by key-value
+    ///     - body: The body of the Http request, for example encoded JSON
+    ///     - cachePolicy: Desired cache policy
+    ///     - timeout: The timeout for the Http request
+    ///     - completionHandler: The result of the request
+    public func httpRequest<T: Decodable>(url: String,
                             httpMethod: HCHttpMethod,
+                            outType: T.Type,
                             headers: [String: String]? = nil,
                             body: Data? = nil,
                             cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                             timeout: Int = 30,
-                            completionHandler: @escaping (_ result: HCClientResponse?) -> ()) {
+                            completionHandler: @escaping (_ result: HCClientResponse<T>?) -> ()) {
         
         if url.isEmpty {
             completionHandler(HCClientResponse.badInput("Url is empty"))
@@ -41,18 +58,6 @@ public struct HttpClient {
             request.httpBody = body
         }
         
-        performRequest(request: request) { (requestResult) in
-            if let requestResult = requestResult {
-                completionHandler(requestResult)
-            } else {
-                completionHandler(HCClientResponse.failure("Unknown failure in performRequest function"))
-            }
-        }
-    }
-    
-    private func performRequest(request: URLRequest,
-                                completionHandler: @escaping (_ result: HCClientResponse?) -> ()) {
-        
         let task = URLSession.shared.dataTask(with: request) {
             data, response, error in
             if let error = error {
@@ -65,13 +70,19 @@ public struct HttpClient {
                 return
             }
             
-            if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300{
+            if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
                 guard let dataObj = data else {
                     completionHandler(HCClientResponse.badInput("Data object is empty"))
                     return
                 }
                 
-                completionHandler(HCClientResponse.success(httpResponse.statusCode, dataObj))
+                guard let returnObj: T = self.parseJson(data: dataObj) else {
+                    completionHandler(HCClientResponse.failure("Failed JSON parse"))
+                    return
+                }
+                
+                completionHandler(HCClientResponse.success(httpResponse.statusCode, returnObj))
+                
             } else {
                 completionHandler(HCClientResponse.httpFailure(httpResponse.statusCode))
             }
@@ -80,5 +91,20 @@ public struct HttpClient {
         }
         
         task.resume()
+    }
+    
+    /// Decodes parameter `data` to an object of type `T`
+    ///
+    /// - Parameter data: The JSON data to be decoded
+    ///
+    /// - Returns: An instance of type `T` if decode succeeded, otherwise `nil`
+    private func parseJson<T: Decodable>(data: Data) -> T? {
+        do {
+            return try jsonDecoder.decode(T.self, from: data)
+        } catch {
+            print(error)
+            print(error.localizedDescription)
+            return nil
+        }
     }
 }

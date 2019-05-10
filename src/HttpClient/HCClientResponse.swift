@@ -8,8 +8,8 @@
 
 import Foundation
 
-public enum HCClientResponse {
-    case success(Int, Data)
+public enum HCClientResponse<T: Decodable> {
+    case success(Int, T)
     case httpFailure(Int)
     case failure(String)
     case badInput(String)
