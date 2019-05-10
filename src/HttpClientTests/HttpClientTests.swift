@@ -9,13 +9,17 @@
 import XCTest
 @testable import HttpClient
 
+class TestClass: Codable {
+    var TestProperty: String
+}
+
 class HttpClientTests: XCTestCase {
 
     func testBadUrl() {
         let client = HttpClient()
         
-        client.httpRequest(url: "silly test url", httpMethod: .get, headers: nil, body: nil) { (response) in
-            if let response = response {
+        client.httpRequest(url: "silly test url", httpMethod: .get, outType: TestClass.self) { (res) in
+            if let response = res {
                 print(response)
                 if case .badInput(let reason) = response {
                     XCTAssertEqual(reason, "Input URL is not valid")
@@ -31,7 +35,7 @@ class HttpClientTests: XCTestCase {
     func testNilUrl() {
         let client = HttpClient()
         
-        client.httpRequest(url: "", httpMethod: .get) { (response) in
+        client.httpRequest(url: "", httpMethod: .get, outType: TestClass.self){ (response) in
             if let response = response {
                 print(response)
                 if case .badInput(let reason) = response {
