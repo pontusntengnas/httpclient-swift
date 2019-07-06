@@ -5,10 +5,10 @@
 
 <p>Minimal example, perform a request to an URL and decode a JSON response to an object.</p>
 
-Target object class/struct conforms to `CodableJson`:
+Target object class/struct conforms to `Codable`:
 
 ```
-class ExampleClass: CodableJson {
+class ExampleClass: Codable {
     var test: String
 }
 ```
@@ -21,20 +21,20 @@ Perform a GET reguest from your code:
 2. Perform the request and initiate and instance of `ExampleClass` with response:
 ```
 let client = HttpClient()
-
-client.httpRequest(url: "<YOUR_URL>", httpMethod: .get) { (response) in
+let headers = [HCConstants.accept : HCConstants.applicationJson]
+        
+client.httpRequest(url: "YOUR URL",
+                   httpMethod: .get,
+                   outType: ExampleClass.self,
+                   headers: headers) { (response) in
     guard let result = response else {
         print("Error")
         return
     }
 
     switch (result) {
-    case .success(_, let data):
-        if let exampleObject = ExampleClass(json: data) {
-            print("Got our object!")
-        } else {
-            print("Failed JSON decode")
-        }
+    case .success(_, let result):
+        print("all good, do something with 'result'")
     case .httpFailure(let status):
         print("HttpError, status: \(status)")
     case .failure(let reason):
@@ -54,10 +54,10 @@ Supported HTTP methods:
 * DELETE
 
 httpRequest() accepts:
-* Url
+* url
 * method type
+* type of response object
 * headers
 * request body
-
-## TODO: 
-* Support timeout and cache policy
+* cache policy
+* timeout in seconds
