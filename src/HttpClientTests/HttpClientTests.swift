@@ -35,7 +35,7 @@ class HttpClientTests: XCTestCase {
     func testNilUrl() {
         let client = HttpClient()
         
-        client.httpRequest(url: "", httpMethod: .get, outType: TestClass.self){ (response) in
+        client.httpRequest(url: "", httpMethod: .get, outType: TestClass.self) { (response) in
             if let response = response {
                 print(response)
                 if case .badInput(let reason) = response {
